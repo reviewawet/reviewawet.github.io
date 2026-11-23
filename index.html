@@ -107,6 +107,7 @@ const SITE = {
   name: "Review Awet",
   handle: "@reviewawet",
   instagram: "https://instagram.com/reviewawet",
+  tiktok: "https://www.tiktok.com/@reviewawet",
   tagline: "Barang yang udah kupakai bertahun-tahun & masih awet. Cari no. produk dari video di sini.",
   avatar: "img/logo.png" // e.g. "img/avatar.jpg"; empty shows the first letter
 };
@@ -120,6 +121,7 @@ const CATEGORIES = ["Rumah", "Dapur", "Gadget", "Harian", "Perawatan"];
    isNew: true shows it under "Baru minggu ini"
 */
 const PRODUCTS = [
+  {id:1,name:"Nespresso Touch Travel Mug (stainless)",category:"Harian",years:"4 tahun",note:"Es batu awet sampai 12 jam, air panas masih hangat setelah 6 jam. Udah jatuh berkali-kali, suhunya tetap terjaga. Minusnya: tutupnya agak ribet dicuci. Di Shopee: versi terbaru (Travel Mug 400 ml) dari Nespresso Official Shop.",image:"img/1.jpg",shopee:"https://s.shopee.co.id/8KrJYwOZN3",tokopedia:"",isNew:true},
 ];
 
 /* Example cards, shown only while PRODUCTS is empty */
@@ -141,7 +143,7 @@ $("#tagline").textContent = SITE.tagline;
 document.title = SITE.name + ": link-in-bio";
 if (SITE.avatar) $("#avatar").innerHTML = `<img src="${esc(SITE.avatar)}" alt="">`;
 else $("#avatar").textContent = SITE.name.trim().charAt(0).toUpperCase();
-if (SITE.instagram) $("#socials").innerHTML = `<a href="${esc(safeUrl(SITE.instagram))}" target="_blank" rel="noopener">Instagram</a>`;
+$("#socials").innerHTML = [["Instagram",SITE.instagram],["TikTok",SITE.tiktok]].filter(x=>x[1]).map(([n,u])=>`<a href="${esc(safeUrl(u))}" target="_blank" rel="noopener">${n}</a>`).join("");
 if (!PRODUCTS.length) $("#demoNote").innerHTML = `<div class="demo">Ini contoh tampilan. Produk asli akan muncul di sini.</div>`;
 
 const placeholder = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 7v10l9 4 9-4V7"/><path d="M12 11v10"/></svg>`;
