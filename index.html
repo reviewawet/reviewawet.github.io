@@ -65,6 +65,7 @@
   .btn.shopee{background:var(--shopee)}
   .btn.toped{background:var(--toped)}
   .card.isnew .name{padding-right:52px}
+  .soon{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip);padding:9px 12px;border-radius:11px}
   .new{position:absolute;top:10px;right:10px;font-size:11px;font-weight:700;background:var(--accent);color:var(--accent-ink);padding:3px 8px;border-radius:6px}
   .empty{text-align:center;color:var(--muted);padding:30px 10px;font-size:14.5px}
   .demo{background:var(--chip);border-radius:12px;padding:10px 14px;font-size:13px;margin-bottom:12px;text-align:center}
@@ -121,12 +122,14 @@ const CATEGORIES = ["Rumah", "Dapur", "Gadget", "Harian", "Perawatan"];
    isNew: true shows it under "Baru minggu ini"
 */
 const PRODUCTS = [
-  {id:1,name:"Nespresso Touch Travel Mug (stainless)",category:"Harian",years:"4 tahun",note:"Es batu awet sampai 12 jam, air panas masih hangat setelah 6 jam. Udah jatuh berkali-kali, suhunya tetap terjaga. Minusnya: tutupnya agak ribet dicuci. Di Shopee: versi terbaru (Travel Mug 400 ml) dari Nespresso Official Shop.",image:"img/1.jpg",shopee:"https://s.shopee.co.id/8KrJYwOZN3",tokopedia:"https://vt.tokopedia.com/t/ZS9P5AQ3eYVWH-bCHJs/",isNew:true},
+  {id:3,name:"Penahan pintu (door stopper) kamar mandi",category:"Rumah",years:"",note:"Baru beli & baru pasang. Nanti kuupdate lagi apakah awet.",image:"img/3.jpg",shopee:"",tokopedia:"",isNew:true},
+  {id:2,name:"Xiaomi Mi Power Strip (stop kontak + USB)",category:"Gadget",years:"lebih dari 10 tahun",note:"Dipakai tiap hari lebih dari 10 tahun, masih aman. Link ke versi terbarunya (Xiaomi Power Strip 20W).",image:"img/2.jpg",shopee:"",tokopedia:"",isNew:true},
+  {id:1,name:"Nespresso Touch Travel Mug (stainless)",category:"Harian",years:"lebih dari 4 tahun",note:"Es batu awet sampai 12 jam, air panas masih hangat setelah 6 jam. Udah jatuh berkali-kali, suhunya tetap terjaga. Minusnya: tutupnya agak ribet dicuci. Di Shopee: versi terbaru (Travel Mug 400 ml) dari Nespresso Official Shop.",image:"img/1.jpg",shopee:"https://s.shopee.co.id/8KrJYwOZN3",tokopedia:"https://vt.tokopedia.com/t/ZS9P5AQ3eYVWH-bCHJs/",isNew:true},
 ];
 
 /* Example cards, shown only while PRODUCTS is empty */
 const DEMO = [
-  {id:3,name:"Contoh: Rice cooker digital 1,8 L",category:"Dapur",years:"4 tahun",note:"Tiap hari dipakai, nasi tetap pulen. Tutup bagian dalam masih rapat.",image:"",shopee:"#",tokopedia:"#",isNew:true},
+  {id:3,name:"Contoh: Rice cooker digital 1,8 L",category:"Dapur",years:"lebih dari 4 tahun",note:"Tiap hari dipakai, nasi tetap pulen. Tutup bagian dalam masih rapat.",image:"",shopee:"#",tokopedia:"#",isNew:true},
   {id:2,name:"Contoh: Power bank 10.000 mAh",category:"Gadget",years:"3 tahun",note:"Masih kuat isi HP hampir 2x penuh. Agak berat tapi awet.",image:"",shopee:"#",tokopedia:"",isNew:false},
   {id:1,name:"Contoh: Rak sepatu besi 5 susun",category:"Rumah",years:"5 tahun",note:"Tidak goyang, cat belum mengelupas. Rakitnya 15 menit.",image:"",shopee:"",tokopedia:"#",isNew:false}
 ];
@@ -160,6 +163,7 @@ function card(p, highlight){
       <div class="btns">
         ${s?`<a class="btn shopee" href="${esc(s)}" target="_blank" rel="noopener sponsored">Beli di Shopee</a>`:""}
         ${t?`<a class="btn toped" href="${esc(t)}" target="_blank" rel="noopener sponsored">Beli di Tokopedia</a>`:""}
+        ${(!s&&!t)?`<span class="soon">Link segera ditambahkan</span>`:""}
       </div>
     </div>
     ${p.isNew?`<span class="new">BARU</span>`:""}
