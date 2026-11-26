@@ -59,7 +59,9 @@
   .meta{min-width:0;display:flex;flex-direction:column}
   .name{font-weight:700;font-size:15.5px;line-height:1.3;margin:2px 0 4px}
   .age{font-size:12.5px;font-weight:600;color:var(--accent);margin-bottom:4px}
-  .note{font-size:13.5px;color:var(--muted);line-height:1.45;margin:0 0 10px}
+  .note{font-size:13.5px;color:var(--muted);line-height:1.45;margin:0 0 10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .note.open{-webkit-line-clamp:unset;display:block}
+  .more{display:block;text-align:left;background:none;border:0;padding:0;margin:-6px 0 10px;font:inherit;font-size:12.5px;font-weight:600;color:var(--accent);cursor:pointer}
   .btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto}
   .btn{flex:1 1 auto;text-align:center;text-decoration:none;font-weight:700;font-size:13.5px;padding:10px 12px;border-radius:11px;color:#fff;min-width:110px}
   .btn.shopee{background:var(--shopee)}
@@ -122,6 +124,9 @@ const CATEGORIES = ["Rumah", "Dapur", "Gadget", "Harian", "Perawatan"];
    isNew: true shows it under "Baru minggu ini"
 */
 const PRODUCTS = [
+  {id:9,name:"Jemuran baju tarik (dinding)",category:"Rumah",years:"lebih dari 4 tahun",note:"Praktis, engselnya ga keras, muat banyak cucian & awet banget. Anti ribet!",image:"img/9.jpg",shopee:"https://s.shopee.co.id/8pndsM0DOY",tokopedia:"https://vt.tokopedia.com/t/ZS9PXnLDL5E22-pYRY5/",isNew:true},
+  {id:8,name:"Kipas gantung Edma",category:"Rumah",years:"lebih dari 4 tahun",note:"Angin bisa diatur, 3 mode kecepatan & ada timer biar ga lupa matiin.",image:"img/8.jpg",shopee:"https://s.shopee.co.id/W8Vwz1b5h",tokopedia:"https://vt.tokopedia.com/t/ZS9PXtgAsRCpC-1gNks/",isNew:true},
+  {id:7,name:"Kipas angin Air Monster",category:"Rumah",years:"lebih dari 6 tahun",note:"Tampilannya gak norak, affordable, gampang dibersihin. So far belum ada minusnya.",image:"img/7.jpg",shopee:"https://s.shopee.co.id/1W138luSsL",tokopedia:"https://vt.tokopedia.com/t/ZS9PXtPShRaXy-4qUhi/",isNew:true},
   {id:6,name:"Air fryer Lock&Lock Black Series",category:"Dapur",years:"lebih dari 3 tahun",note:"Punyaku model lama, sampai sekarang masih awet dan masih dipakai. Saran: pakai alas air fryer dari awal biar awet, aku dulu nggak. Link ke versi Black Series yang dijual sekarang.",image:"img/6.jpg",shopee:"https://s.shopee.co.id/30pq4VXFPF",tokopedia:"https://vt.tokopedia.com/t/ZS9PQPmtexdmN-UC5Qm/",isNew:true},
   {id:5,name:"Kursi lipat outdoor Speeds",category:"Harian",years:"lebih dari 2 tahun",note:"Murah, besinya kuat, praktis dibawa ke mana-mana dan disimpan di mobil. Minusnya: bautnya rawan kendor, kuakalin pakai tali tis dan so far aman.",image:"img/5.jpg",shopee:"https://s.shopee.co.id/AAJ0YxgTGD",tokopedia:"https://vt.tokopedia.com/t/ZS9PQBjcDHt43-5Hrfh/",isNew:true},
   {id:4,name:"Kran sink tarik SUS 304 (panas-dingin)",category:"Dapur",years:"lebih dari 1 tahun",note:"Bisa dari dua pipa (panas & dingin), kepala bisa ditarik dan balik sendiri, ada mode shower & air biasa. Minusnya: warnanya cuma hitam dan silver.",image:"img/4.jpg",shopee:"https://s.shopee.co.id/3LSgPaSjjB",tokopedia:"https://vt.tokopedia.com/t/ZS9PQh3r56K39-bC9NP/",isNew:true},
@@ -155,14 +160,14 @@ if (!PRODUCTS.length) $("#demoNote").innerHTML = `<div class="demo">Ini contoh t
 const placeholder = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 7v10l9 4 9-4V7"/><path d="M12 11v10"/></svg>`;
 
 function card(p, highlight){
-  const img = p.image ? `<img src="${esc(p.image)}" alt="${esc(p.name)}" loading="lazy" onerror="this.replaceWith(document.createRange().createContextualFragment(\`${placeholder}\`))">` : placeholder;
+  const img = p.image ? `<img src="${esc(p.image)}" alt="${esc(p.name)}" loading="lazy" onerror="this.style.display='none'">` : placeholder;
   const s = safeUrl(p.shopee), t = safeUrl(p.tokopedia);
   return `<article class="card${highlight?' hit':''}${p.isNew?' isnew':''}" id="p${esc(p.id)}">
     <div class="thumb">${img}<span class="num">No. ${esc(p.id)}</span></div>
     <div class="meta">
       <div class="name">${esc(p.name)}</div>
       ${p.years?`<div class="age">Sudah dipakai ${esc(p.years)}</div>`:""}
-      ${p.note?`<p class="note">${esc(p.note)}</p>`:""}
+      ${p.note?`<p class="note">${esc(p.note)}</p><button type="button" class="more" hidden>Selengkapnya</button>`:""}
       <div class="btns">
         ${s?`<a class="btn shopee" href="${esc(s)}" target="_blank" rel="noopener sponsored">Beli di Shopee</a>`:""}
         ${t?`<a class="btn toped" href="${esc(t)}" target="_blank" rel="noopener sponsored">Beli di Tokopedia</a>`:""}
@@ -205,6 +210,10 @@ function render(){
 const h = location.hash.replace("#","");
 if (/^\d+$/.test(h)) $("#q").value = h;
 render();
+</script>
+<script>
+function fixNotes(){document.querySelectorAll('.note').forEach(n=>{const b=n.nextElementSibling;if(!b||!b.classList.contains('more'))return;if(!n.classList.contains('open'))b.hidden=n.scrollHeight<=n.clientHeight+1;b.onclick=()=>{const o=n.classList.toggle('open');b.textContent=o?'Tutup':'Selengkapnya';};});}
+new MutationObserver(fixNotes).observe(document.body,{childList:true,subtree:true});addEventListener('load',fixNotes);addEventListener('resize',fixNotes);
 </script>
 </body>
 </html>
